@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "babel src -d dist --source-maps",
-    "start": "babel-node src/index.js",
+    "start": "babel-node dist/index.js",
     "dev": "nodemon src/index.js --exec babel-node"
   },
   "keywords": [],
@@ -17,13 +17,13 @@
     "express-graphql": "^0.12.0",
     "graphql": "^15.5.0",
     "graphql-tools": "^7.0.4",
-    "mysql2": "^2.2.5"
-  },
-  "devDependencies": {
+    "mysql2": "^2.2.5",
     "@babel/cli": "^7.13.10",
     "@babel/core": "^7.13.10",
     "@babel/node": "^7.13.10",
-    "@babel/preset-env": "^7.13.10",
+    "@babel/preset-env": "^7.13.10"
+  },
+  "devDependencies": {
     "nodemon": "^2.0.7"
   }
 }
