@@ -21,7 +21,8 @@ app.use("/graphql", (0, _expressGraphql.graphqlHTTP)({
   graphiql: true,
   schema: _schema["default"]
 }));
-app.listen(3000, function () {
-  return console.log("Server on 3000 port");
+var port = process.env.PORT || 3000;
+app.listen(port, function () {
+  return console.log("Server on ".concat(port, " port"));
 });
 //# sourceMappingURL=index.js.map

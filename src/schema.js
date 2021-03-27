@@ -9,7 +9,8 @@ const typeDefs = `
     }
 
     type Mutation {
-        createPublication(input: PublicationInput) : [Publications]
+        createPublication(input: PublicationInput) : [Publications],
+        setLoginCode(phone: String, login_code: Int) : String
     }
     
     type Publications {
@@ -44,6 +45,6 @@ const typeDefs = `
 `;
 
 export default makeExecutableSchema({
-  typeDefs,
-  resolvers
+    typeDefs,
+    resolvers
 })

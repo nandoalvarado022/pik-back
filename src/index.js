@@ -5,6 +5,11 @@ import schema from "./schema";
 
 const app = express()
 
+const whatsapp = require("./whatsapp")
+
+app.post("/whatsapp/connect", whatsapp.conectApi)
+app.post('/whatsapp/sendmessage', whatsapp.sendMessage);
+
 app.get("/", (req, res) => {
   res.json({ message: "hi" })
 })
