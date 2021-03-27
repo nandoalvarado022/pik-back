@@ -11,7 +11,7 @@ app.post("/whatsapp/connect", whatsapp.conectApi)
 app.post('/whatsapp/sendmessage', whatsapp.sendMessage);
 
 app.get("/", (req, res) => {
-  res.json({ message: "hi" })
+  res.json({ message: "Welcome to Pik" })
 })
 
 app.use(cors())

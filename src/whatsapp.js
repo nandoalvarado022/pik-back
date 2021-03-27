@@ -16,7 +16,7 @@ module.exports.conectApi = async (req, res) => {
 // ENVIAR MENSAJES
 module.exports.sendMessage = async (req, res) => {
 	const phone = req.query.phone
-	const API_URL = "http://localhost:3000/graphql/"
+	const API_URL = "https://pik-server.herokuapp.com/graphql/"
 	const random_num = rn({ min: 1000, max: 9999, integer: true })
 	// saving login code in user
 	await fetch(API_URL, {
