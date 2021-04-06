@@ -5,12 +5,13 @@ const typeDefs = `
     type Query {
         hello: String
         greet(name: String): String
-        publications(slug: String): [Publications]
+        publications(slug: String, phone: String): [Publications],
+        validateLogin(phone: String, code: Int): String
     }
 
     type Mutation {
-        createPublication(input: PublicationInput) : [Publications],
-        setLoginCode(phone: String, login_code: Int) : String
+        createPublication(input: PublicationInput) : String,
+        setLoginCode(phone: String) : String
     }
     
     type Publications {
@@ -23,7 +24,7 @@ const typeDefs = `
         image_link: String
         price: Int
         quantity: Int
-        sale_price: String
+        sale_price: Int
         slug: String
         tags: String
         title: String
@@ -31,12 +32,17 @@ const typeDefs = `
     }
 
     input PublicationInput {
-        is_new: Boolean
         description: String
         image_link: String
+        image_2: String
+        image_3: String
+        image_4: String
+        image_5: String
+        is_new: Boolean
+        phone: String
         price: Int
         quantity: Int
-        sale_price: String
+        sale_price: Int
         slug: String
         tags: String
         title: String
