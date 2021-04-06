@@ -18,7 +18,7 @@ export const resolvers = {
     greet: () => {
       return "Saludo"
     },
-    publications: async(root, { slug, phone }) => {
+    publications: async (root, { slug, phone }) => {
       let query = "SELECT * FROM publications"
       if (slug) query = query + ` where slug = '${slug}'`
       if (phone) query = query + ` where phone = '${phone}'`
@@ -26,7 +26,7 @@ export const resolvers = {
       res = res[0]
       return res
     },
-    validateLogin: async(root, { phone, code }) => {
+    validateLogin: async (root, { phone, code }) => {
       const userForToken = { phone, code }
       const res = await conection.query(`SELECT * FROM users WHERE phone = "${phone}" and login_code = "${code}"`);
       if (res[0].length > 0) {
@@ -41,17 +41,17 @@ export const resolvers = {
     }
   },
   Mutation: {
-    createPublication: async(_, { input }, context) => {
+    createPublication: async (_, { input }, context) => {
       // Token vaildation
       const Authorization = context.headers && context.headers.authorization ? context.headers.authorization : null
       console.log(`Autorizacion: ${Authorization}`)
       await conection.query("INSERT INTO publications SET ?", input);
       return JSON.stringify(input)
     },
-    setLoginCode: async(_, { phone }) => { // this function is use to create users as well
+    setLoginCode: async (_, { phone }) => { // this function is use to create users as well
       const login_code = rn({ min: 1000, max: 9999, integer: true })
-      const accountSid = 'ACa94f4c64f156768942ee89ab3df8d409';
-      const authToken = '26425dc77391f289f33fcc2275659396';
+      const accountSid = process.env.accountSid;
+      const authToken = process.env.authToken;
       const client = require('twilio')(accountSid, authToken);
 
       /*client.messages
