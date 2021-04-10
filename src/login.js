@@ -29,7 +29,7 @@ module.exports.sendMessage = async (req, res) => {
 		})
 	})
 	request = await request.json()
-	await res.send(request.data.setLoginCode)
+	await res.send("Codigo es: " + request.data.setLoginCode)
 	/*const message = ""
 	const options = {
 		quoted: null,
