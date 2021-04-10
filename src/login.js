@@ -3,8 +3,6 @@ const fetch = require('node-fetch')
 const WhatsAppWeb = require('baileys')
 
 const client = new WhatsAppWeb()
-const API_URL = "http://localhost:3000/graphql/"
-// const API_URL = "https://pik-server.herokuapp.com/graphql/"
 
 // CONECTA WHATS - SERVIDOR
 module.exports.conectApi = async (req, res) => {
@@ -42,7 +40,7 @@ module.exports.sendMessage = async (req, res) => {
 
 module.exports.validateLogin = async (req, res) => {
 	const { phone, code } = req.query
-	let request = await fetch(API_URL, {
+	let request = await fetch(VARS.API_URL, {
 		method: "POST",
 		headers: { "Content-Type": "application/json" },
 		body: JSON.stringify({

@@ -4,10 +4,10 @@ const mysql = require('mysql2/promise');
 const rn = require('random-number');
 
 const conection = mysql.createPool({
-  host: "sql357.main-hosting.eu",
-  database: "u411078622_pikajuegos",
-  user: "u411078622_pikajuegos",
-  password: "Nandito2007"
+  host: process.env.MYSQL_HOST,
+  database: process.env.MYSQL_DB,
+  user: process.env.MYSQL_USER,
+  password: process.env.MYSQL_PASSWORD
 })
 
 export const resolvers = {
