@@ -1,3 +1,4 @@
+import VARS from "./variables"
 const fetch = require('node-fetch')
 const WhatsAppWeb = require('baileys')
 
@@ -18,7 +19,7 @@ module.exports.conectApi = async (req, res) => {
 module.exports.sendMessage = async (req, res) => {
 	const phone = req.query.phone
 	// saving login code in user
-	let request = await fetch(API_URL, {
+	let request = await fetch(VARS.API_URL, {
 		method: "POST",
 		headers: { "Content-Type": "application/json" },
 		body: JSON.stringify({
