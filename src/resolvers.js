@@ -18,11 +18,18 @@ export const resolvers = {
     greet: () => {
       return "Saludo"
     },
-    publications: async (root, { slug, phone }) => {
+    publications: async (root, { slug, phone, status }) => {
       let query = "SELECT * FROM publications"
-      if (slug) query = query + ` where slug = '${slug}'`
-      if (phone) query = query + ` where phone = '${phone}'`
-      let res = await conection.query(query)
+      query = query + " where id IS NOT NULL"
+      if (slug && slug != "") query = query + ` and slug = "${slug}"`
+      if (phone) query = query + ` and phone = '${phone}'`
+      if (status) query = query + ` and status = ${status}`
+      let res = []
+      try {
+        res = await conection.query(query)
+      } catch (error) {
+        console.error(error);
+      }
       res = res[0]
       return res
     },
@@ -43,9 +50,16 @@ export const resolvers = {
   Mutation: {
     createPublication: async (_, { input }, context) => {
       // Token vaildation
+      // const fields = {
+      //   description: input.description
+      // }
+      const { id, isEdit } = input
+      delete input.isEdit
+      delete input.id
       const Authorization = context.headers && context.headers.authorization ? context.headers.authorization : null
       console.log(`Autorizacion: ${Authorization}`)
-      await conection.query("INSERT INTO publications SET ?", input);
+      !isEdit && await conection.query("INSERT INTO publications SET ?", input);
+      isEdit && await conection.query(`UPDATE publications SET ? WHERE id=${id}`, input)
       return JSON.stringify(input)
     },
     setLoginCode: async (_, { phone }) => { // this function is use to create users as well
@@ -53,14 +67,21 @@ export const resolvers = {
       const accountSid = process.env.accountSid;
       const authToken = process.env.authToken;
       const client = require('twilio')(accountSid, authToken);
+      const body = `Tu codigo de verificacion Pik es: ${login_code}
+Pikajuegos nunca te pedirá tu código de verificación fuera de la aplicación.`
 
-      /*client.messages
-        .create({
-          body: `El codigo es: ${login_code}`,
-          to: '+573187414972'
-        })
-        .then(message => console.log(message.sid))
-        .done();*/
+      const sendMessage = () => {
+        client.messages
+          .create({
+            body,
+            messagingServiceSid: process.env.messagingServiceSid,
+            to: '+573187414972'
+          })
+          .then(message => console.log(message.sid))
+          .done();
+      }
+
+      // sendMessage() // Enviando el SMS
 
       const user = await conection.query(`SELECT * FROM users WHERE phone = "${phone}"`);
       if (user[0].length > 0) {
@@ -68,7 +89,10 @@ export const resolvers = {
       } else {
         await conection.query("INSERT INTO users SET ?", { phone, login_code });
       }
-      return `El codigo es: ${login_code}`
+      return login_code
+    },
+    changeStatePublication: async (_, { id, status }) => {
+      const user = await conection.query(`UPDATE publications SET status = ${status} WHERE id = ${id}`);
     }
   }
 }

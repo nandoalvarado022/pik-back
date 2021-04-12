@@ -28,14 +28,7 @@ module.exports.sendMessage = async (req, res) => {
 		})
 	})
 	request = await request.json()
-	await res.send("Codigo es: " + request.data.setLoginCode)
-	/*const message = ""
-	const options = {
-		quoted: null,
-		timestamp: new Date()
-	}
-	client.sendTextMessage(`${phone}@s.whatsapp.net`, message, options)
-		.then(res.jsonp({ mensaje: 'Notificación enviada' }))*/
+	await res.json({ code: request.data.setLoginCode })
 }
 
 module.exports.validateLogin = async (req, res) => {
