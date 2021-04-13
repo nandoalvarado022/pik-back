@@ -12,18 +12,13 @@ const conection = mysql.createPool({
 
 export const resolvers = {
   Query: {
-    hello: () => {
-      return "Hi"
-    },
-    greet: () => {
-      return "Saludo"
-    },
     publications: async (root, { slug, phone, status }) => {
       let query = "SELECT * FROM publications"
       query = query + " where id IS NOT NULL"
       if (slug && slug != "") query = query + ` and slug = "${slug}"`
       if (phone) query = query + ` and phone = '${phone}'`
       if (status) query = query + ` and status = ${status}`
+      query = query + " order by id desc"
       let res = []
       try {
         res = await conection.query(query)
