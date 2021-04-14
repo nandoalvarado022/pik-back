@@ -12,13 +12,16 @@ const conection = mysql.createPool({
 
 export const resolvers = {
   Query: {
-    publications: async (root, { slug, phone, status }) => {
-      let query = "SELECT * FROM publications"
-      query = query + " where id IS NOT NULL"
-      if (slug && slug != "") query = query + ` and slug = "${slug}"`
-      if (phone) query = query + ` and phone = '${phone}'`
-      if (status) query = query + ` and status = ${status}`
-      query = query + " order by id desc"
+    publications: async (root, { slug, phone, status, category }) => {
+      let query = `SELECT u.picture as user_picture, p.* FROM publications AS p
+      INNER JOIN users AS u ON
+      p.phone COLLATE utf8mb4_general_ci = u.phone`
+      query = query + " where p.id IS NOT NULL"
+      if (slug && slug != "") query = query + ` and p.slug = "${slug}"`
+      if (phone) query = query + ` and p.phone = "${phone}"`
+      if (status) query = query + ` and p.status = ${status}`
+      if (category) query = query + ` and p.type = "${category}"`
+      query = query + " order by p.created_at desc"
       let res = []
       try {
         res = await conection.query(query)
