@@ -13,7 +13,7 @@ const conection = mysql.createPool({
 export const resolvers = {
   Query: {
     publications: async (root, { slug, phone, status, category }) => {
-      let query = `SELECT u.picture as user_picture, p.* FROM publications AS p
+      let query = `SELECT u.picture as user_picture, u.phone as user_phone, p.* FROM publications AS p
       INNER JOIN users AS u ON
       p.phone COLLATE utf8mb4_general_ci = u.phone`
       query = query + " where p.id IS NOT NULL"

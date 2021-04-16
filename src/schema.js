@@ -22,7 +22,6 @@ const typeDefs = `
         image_4: String
         image_5: String
         image_link: String
-        user_picture: String
         price: Int
         quantity: Int
         sale_price: Int
@@ -30,6 +29,8 @@ const typeDefs = `
         status: Boolean
         tags: String
         title: String
+        user_picture: String
+        user_phone: String
         type: String
     }
 
