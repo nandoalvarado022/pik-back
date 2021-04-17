@@ -65,21 +65,20 @@ export const resolvers = {
       const accountSid = process.env.accountSid;
       const authToken = process.env.authToken;
       const client = require('twilio')(accountSid, authToken);
-      const body = `Tu codigo de verificacion Pik es: ${login_code}
-Pikajuegos nunca te pedirá tu código de verificación fuera de la aplicación.`
-
+      const body = `Tu código de verificacion Pikajuegos es: ${login_code} **** 
+Pikajuegos nunca te pedirá tu código de verificación fuera del sitioweb.`
       const sendMessage = () => {
         client.messages
           .create({
             body,
             messagingServiceSid: process.env.messagingServiceSid,
-            to: '+573187414972'
+            to: phone
           })
           .then(message => console.log(message.sid))
           .done();
       }
 
-      // sendMessage() // Enviando el SMS
+      sendMessage() // Enviando el SMS
 
       const user = await conection.query(`SELECT * FROM users WHERE phone = "${phone}"`);
       if (user[0].length > 0) {
