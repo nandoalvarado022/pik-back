@@ -10,8 +10,9 @@ const typeDefs = `
     type Mutation {
         createPublication(input: PublicationInput) : String,
         setLoginCode(phone: String) : String,
-        changeStatePublication(id: Int, status: Boolean) : String
-    }
+        changeStatePublication(id: Int, status: Boolean) : String,
+        changeProfileData(input: UserInput) : String
+    }    
     
     type Publications {
         id: Int
@@ -32,6 +33,11 @@ const typeDefs = `
         user_picture: String
         user_phone: String
         type: String
+    }
+
+    input UserInput {
+        id: Int
+        picture: String
     }
 
     input PublicationInput {

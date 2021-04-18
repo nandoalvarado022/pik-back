@@ -90,6 +90,12 @@ Pikajuegos nunca te pedirá tu código de verificación fuera del sitioweb.`
     },
     changeStatePublication: async (_, { id, status }) => {
       const user = await conection.query(`UPDATE publications SET status = ${status} WHERE id = ${id}`);
+    },
+    changeProfileData: async (_, { input }) => {
+      const { id } = input
+      delete input.id
+      const user = await conection.query(`UPDATE users SET ? WHERE id = ${id}`, input)
+      return "Ok"
     }
   }
 }
