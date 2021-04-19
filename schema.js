@@ -30,14 +30,19 @@ const typeDefs = `
         status: Boolean
         tags: String
         title: String
+        user_name: String
         user_picture: String
         user_phone: String
         type: String
     }
 
     input UserInput {
+        email: String
         id: Int
+        name: String
+        phone: String
         picture: String
+        token: String
     }
 
     input PublicationInput {

@@ -13,7 +13,7 @@ const conection = mysql.createPool({
 export const resolvers = {
   Query: {
     publications: async (root, { slug, phone, status, category }) => {
-      let query = `SELECT u.picture as user_picture, u.phone as user_phone, p.* FROM publications AS p
+      let query = `SELECT u.name as user_name, u.picture as user_picture, u.phone as user_phone, p.* FROM publications AS p
       INNER JOIN users AS u ON
       p.phone COLLATE utf8mb4_general_ci = u.phone`
       query = query + " where p.id IS NOT NULL"
@@ -61,13 +61,12 @@ export const resolvers = {
       return JSON.stringify(input)
     },
     setLoginCode: async (_, { phone }) => { // this function is use to create users as well
-      const login_code = rn({ min: 1000, max: 9999, integer: true })
-      const accountSid = process.env.accountSid;
-      const authToken = process.env.authToken;
-      const client = require('twilio')(accountSid, authToken);
-      const body = `Tu código de verificacion Pikajuegos es: ${login_code} **** 
-Pikajuegos nunca te pedirá tu código de verificación fuera del sitioweb.`
+      const login_code = rn({ min: 1000, max: 9999, integer: true });
       const sendMessage = () => {
+        const body = `Tu código de verificacion Pikajuegos es: ${login_code}`;
+        const accountSid = process.env.accountSid;
+        const authToken = process.env.authToken;
+        const client = require('twilio')(accountSid, authToken);
         client.messages
           .create({
             body,
