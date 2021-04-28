@@ -15,6 +15,7 @@ const typeDefs = `
     }    
     
     type Publications {
+        certificate: Boolean
         id: Int
         is_new: Boolean
         description: String
@@ -33,6 +34,8 @@ const typeDefs = `
         user_name: String
         user_picture: String
         user_phone: String
+        banner_bottom: String
+        banner_top: String
         type: String
     }
 
