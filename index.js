@@ -2,14 +2,12 @@ const log4js = require("log4js")
 const logger = log4js.getLogger();
 const cors = require('cors')
 const express = require("express");
+const login = require("./login");
 import { graphqlHTTP } from "express-graphql";
 import schema from "./schema";
 
 const app = express()
 app.use(cors())
-
-const login = require("./login")
-
 app.post("/whatsapp/connect", login.conectApi)
 app.post('/login/sendmessage', login.sendMessage);
 app.post('/login/validateLogin', login.validateLogin);

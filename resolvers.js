@@ -20,7 +20,7 @@ export const resolvers = {
       if (slug && slug != "") query = query + ` and p.slug = "${slug}"`
       if (phone) query = query + ` and p.phone = "${phone}"`
       if (status) query = query + ` and p.status = ${status}`
-      if (category) query = query + ` and p.type = "${category}"`
+      if (category) query = query + ` and p.type = ${category}`
       query = query + " order by p.created_at desc"
       let res = []
       try {
