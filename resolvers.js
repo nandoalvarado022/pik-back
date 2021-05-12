@@ -1,4 +1,4 @@
-const dotenv = require('dotenv').config();
+require('dotenv').config();
 const jwt = require("jsonwebtoken");
 const mysql = require('mysql2/promise');
 const rn = require('random-number');
@@ -73,7 +73,7 @@ export const resolvers = {
             messagingServiceSid: process.env.messagingServiceSid,
             to: phone
           })
-          .then(message => console.log(message.sid))
+          .then(message => console.log("Mensaje enviado " + message.sid))
           .done();
       }
 

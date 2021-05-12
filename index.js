@@ -7,15 +7,20 @@ import { graphqlHTTP } from "express-graphql";
 import schema from "./schema";
 
 const app = express()
-app.use(cors())
-app.post("/whatsapp/connect", login.conectApi)
-app.post('/login/sendmessage', login.sendMessage);
-app.post('/login/validateLogin', login.validateLogin);
+
+// app.post("/whatsapp/connect", login.conectApi)
+// app.post('/login/sendmessage', login.sendMessage);
+// app.post('/login/validateLogin', login.validateLogin);
 
 app.get("/", (req, res) => {
   res.json({ message: "Welcome to Pik" })
 })
 
+const options = {
+  origin: ["https://pikajuegos.com", "https://twilio.com", "http://localhost"]
+}
+
+app.use(cors(options))
 app.use("/graphql", graphqlHTTP({
   graphiql: true,
   schema

@@ -37,6 +37,7 @@ const typeDefs = `
         banner_bottom: String
         banner_top: String
         type: Int
+        views: Int
     }
 
     input UserInput {
