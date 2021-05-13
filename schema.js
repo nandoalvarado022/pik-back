@@ -3,7 +3,7 @@ import { resolvers } from "./resolvers";
 
 const typeDefs = `
     type Query {
-        publications(slug: String, phone: String, status: Boolean, category: Int): [Publications],
+        publications(slug: String, phone: String, status: Boolean, category: Int, subcategory: Int): [Publications],
         validateLogin(phone: String, code: Int): String
     }
 
@@ -36,7 +36,8 @@ const typeDefs = `
         user_phone: String
         banner_bottom: String
         banner_top: String
-        type: Int
+        category: Int
+        subcategory: Int
         views: Int
     }
 
@@ -66,7 +67,7 @@ const typeDefs = `
         slug: String
         tags: String
         title: String
-        type: Int
+        category: Int
     }
 `;
 
