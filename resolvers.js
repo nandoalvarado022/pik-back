@@ -1,3 +1,5 @@
+import { disrupt } from './utils';
+
 require('dotenv').config();
 const jwt = require("jsonwebtoken");
 const mysql = require('mysql2/promise');
@@ -12,7 +14,7 @@ const conection = mysql.createPool({
 
 export const resolvers = {
   Query: {
-    publications: async (root, { slug, phone, status, category, subcategory }) => {
+    publications: async (root, { slug, phone, status, category, subcategory, order }) => {
       let query = `SELECT u.certificate as certificate, u.banner_bottom as banner_bottom, u.banner_top as banner_top, u.name as user_name, u.picture as user_picture, u.phone as user_phone, p.* FROM publications AS p
       INNER JOIN users AS u ON
       p.phone COLLATE utf8mb4_general_ci = u.phone`
@@ -22,7 +24,7 @@ export const resolvers = {
       if (status) query = query + ` and p.status = ${status}`
       if (category) query = query + ` and p.category = ${category}`
       if (subcategory) query = query + ` and p.subcategory = ${subcategory}`
-      query = query + " order by p.created_at desc"
+      if (order) query = query + ` order by p.created_at desc`
       let res = []
       try {
         res = await conection.query(query)
@@ -30,6 +32,7 @@ export const resolvers = {
         console.error(error);
       }
       res = res[0]
+      res = disrupt(res)
       return res
     },
     validateLogin: async (root, { phone, code }) => {

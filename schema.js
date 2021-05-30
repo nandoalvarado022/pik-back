@@ -3,7 +3,7 @@ import { resolvers } from "./resolvers";
 
 const typeDefs = `
     type Query {
-        publications(slug: String, phone: String, status: Boolean, category: Int, subcategory: Int): [Publications],
+        publications(slug: String, phone: String, status: Boolean, category: Int, subcategory: Int, Order: Boolean): [Publications],
         validateLogin(phone: String, code: Int): String
     }
 
