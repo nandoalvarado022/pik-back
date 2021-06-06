@@ -4,18 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "babel src -d index.js --source-maps",
-    "start": "babel-node index.js",
+    "start": "index.js",
     "dev": "nodemon index.js --exec babel-node"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@babel/cli": "^7.13.10",
-    "@babel/core": "^7.13.10",
-    "@babel/node": "^7.13.10",
-    "@babel/preset-env": "^7.13.10",
+    "@babel/node": "^7.14.2",
     "baileys": "^1.1.1",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
@@ -32,6 +28,9 @@
     "twilio": "^3.59.0"
   },
   "devDependencies": {
+    "@babel/cli": "^7.14.3",
+    "@babel/core": "^7.14.3",
+    "@babel/preset-env": "^7.14.4",
     "nodemon": "^2.0.7"
   }
 }
