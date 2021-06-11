@@ -1,5 +1,4 @@
-import { disrupt } from './utils';
-
+const disrupt = require("./utils");
 require('dotenv').config();
 const jwt = require("jsonwebtoken");
 const mysql = require('mysql2/promise');
@@ -12,7 +11,7 @@ const conection = mysql.createPool({
   password: process.env.MYSQL_PASSWORD
 })
 
-export const resolvers = {
+const resolvers = {
   Query: {
     publications: async (root, { slug, phone, status, category, subcategory, order }) => {
       let query = `SELECT u.certificate as certificate, u.banner_bottom as banner_bottom, u.banner_top as banner_top, u.name as user_name, u.picture as user_picture, u.phone as user_phone, p.* FROM publications AS p
@@ -102,3 +101,5 @@ export const resolvers = {
     }
   }
 }
+
+module.exports = resolvers

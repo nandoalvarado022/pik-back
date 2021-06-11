@@ -1,6 +1,6 @@
-import VARS from "./variables"
-const fetch = require('node-fetch')
-const WhatsAppWeb = require('baileys')
+const VARS = require("./variables");
+const fetch = require('node-fetch');
+const WhatsAppWeb = require('baileys');
 
 const client = new WhatsAppWeb()
 
