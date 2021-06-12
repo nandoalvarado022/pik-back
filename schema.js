@@ -15,6 +15,7 @@ const typeDefs = `
     }    
     
     type Publications {
+        accept_changues: Boolean
         certificate: Boolean
         id: Int
         is_new: Boolean
@@ -51,6 +52,7 @@ const typeDefs = `
     }
 
     input PublicationInput {
+        accept_changues: Boolean
         description: String
         id: Int
         image_link: String
