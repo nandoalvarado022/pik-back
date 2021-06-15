@@ -69,18 +69,18 @@ const resolvers = {
         const body = `Tu código de verificacion Pikajuegos es: ${login_code}`;
         const accountSid = process.env.accountSid;
         const authToken = process.env.authToken;
-        // const client = require('twilio')(accountSid, authToken);
-        /*client.messages
+        const client = require('twilio')(accountSid, authToken);
+        client.messages
           .create({
             body,
             messagingServiceSid: process.env.messagingServiceSid,
             to: phone
           })
           .then(message => console.log("Mensaje enviado " + message.sid))
-          .done();*/
+          .done();
       }
 
-      // sendMessage() // Enviando el SMS
+      sendMessage() // Enviando el SMS
 
       const user = await conection.query(`SELECT * FROM users WHERE phone = "${phone}"`);
       if (user[0].length > 0) {
