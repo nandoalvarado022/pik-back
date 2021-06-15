@@ -45,6 +45,7 @@ const typeDefs = `
     input UserInput {
         email: String
         id: Int
+        last_login: String
         name: String
         phone: String
         picture: String
