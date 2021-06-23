@@ -20,6 +20,7 @@ const typeDefs = `
         id: Int
         is_new: Boolean
         description: String
+        image_1: String
         image_2: String
         image_3: String
         image_4: String
@@ -57,6 +58,7 @@ const typeDefs = `
         description: String
         id: Int
         image_link: String
+        image_1: String
         image_2: String
         image_3: String
         image_4: String
