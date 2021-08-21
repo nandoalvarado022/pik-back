@@ -3,9 +3,10 @@ const resolvers = require("./resolvers");
 
 const typeDefs = `
     type Query {
-        publications(slug: String, phone: String, status: Boolean, category: Int, subcategory: Int, Order: Boolean): [Publications],
+        publications(slug: String, phone: String, status: Boolean, category: Int, subcategory: Int, Order: Boolean): [Publication],
         validateLogin(phone: String, code: Int): String,
-        getCoins(user: Int): [Coins]
+        getCoins(user: Int): [Coin],
+        getNotifications(user: Int) : [Notification]
     }
 
     type Mutation {
@@ -15,15 +16,23 @@ const typeDefs = `
         changeProfileData(input: UserInput) : String
     }    
 
-    type Coins {
+    type Coin {
         id: Int
         user: String
         detail: String
         value: Int
         created: String
     }
+
+    type Notification {
+        id: Int
+        user: String
+        detail: String
+        coins: Int
+        created: String
+    }
     
-    type Publications {
+    type Publication {
         accept_changues: Boolean
         certificate: Boolean
         id: Int

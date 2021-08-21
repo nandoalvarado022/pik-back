@@ -55,6 +55,15 @@ const resolvers = {
         res = disrupt(res)
         return res
       }
+    },
+    getNotifications: async (root, { user }) => { // Obteniendo monedas de usuario
+      const query = `SELECT * FROM notifications WHERE user = ${user} order by created asc`
+      let res = await conection.query(query);
+      if (res[0].length > 0) {
+        res = res[0]
+        res = disrupt(res)
+        return res
+      }
     }
   },
   Mutation: {
