@@ -46,6 +46,15 @@ const resolvers = {
         }
         return JSON.stringify(obj)
       }
+    },
+    getCoins: async (root, { user }) => { // Obteniendo monedas de usuario
+      const query = `SELECT * FROM coins WHERE user = ${user}`
+      let res = await conection.query(query);
+      if (res[0].length > 0) {
+        res = res[0]
+        res = disrupt(res)
+        return res
+      }
     }
   },
   Mutation: {
@@ -80,7 +89,7 @@ const resolvers = {
           .done();
       }
 
-      sendMessage() // Enviando el SMS
+      // sendMessage() // Enviando el SMS
 
       const user = await conection.query(`SELECT * FROM users WHERE phone = "${phone}"`);
       if (user[0].length > 0) {
