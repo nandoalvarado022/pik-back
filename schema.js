@@ -7,6 +7,7 @@ const typeDefs = `
         validateLogin(phone: String, code: Int): String,
         getCoins(user: Int): [Coin],
         getNotifications(user: Int) : [Notification]
+        getTransactions(user: Int) : [Transaction]
     }
 
     type Mutation {
@@ -14,7 +15,20 @@ const typeDefs = `
         setLoginCode(phone: String) : String,
         changeStatePublication(id: Int, status: Boolean) : String,
         changeProfileData(input: UserInput) : String
+        createTransaction(user: Int, publication: Int) : String
+        transactionConfirmed(id: Int) : String
+        createNotification(user: Int, detail: String, coins: Int) : String
     }    
+
+    type Transaction {
+        id: Int
+        user: Int
+        type: String
+        detail: String
+        status: Int
+        created: String
+        u_name: String
+    }
 
     type Coin {
         id: Int

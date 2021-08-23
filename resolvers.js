@@ -57,7 +57,21 @@ const resolvers = {
       }
     },
     getNotifications: async (root, { user }) => { // Obteniendo monedas de usuario
-      const query = `SELECT * FROM notifications WHERE user = ${user} order by created asc`
+      const query = `SELECT * FROM notifications WHERE user = ${user} order by created desc`
+      let res = await conection.query(query);
+      if (res[0].length > 0) {
+        res = res[0]
+        res = disrupt(res)
+        return res
+      }
+    },
+    getTransactions: async (root, { user }) => { // Obteniendo monedas de usuario
+      const query = `SELECT t.*, u.name AS u_name
+      FROM transactions  t
+      INNER JOIN users u ON
+      t.user = u.id
+      WHERE USER = ${user}
+      order by created desc`
       let res = await conection.query(query);
       if (res[0].length > 0) {
         res = res[0]
@@ -115,6 +129,18 @@ const resolvers = {
       const { id } = input
       delete input.id
       const user = await conection.query(`UPDATE users SET ? WHERE id = ${id}`, input)
+      return "Ok"
+    },
+    createTransaction: async (_, { user, publication }) => {
+      const result = await conection.query(`INSERT INTO transactions SET ?`, { user, publication, status: 0 })
+      return "Ok"
+    },
+    transactionConfirmed: async (_, { id }) => {
+      const result = await conection.query(`UPDATE transactions SET ? WHERE id = ${id}`, { status: 1 })
+      return "Ok"
+    },
+    createNotification: async (_, { user, detail, coins }) => {
+      const result = await conection.query(`INSERT INTO notifications SET ?`, { user, detail, coins })
       return "Ok"
     }
   }
