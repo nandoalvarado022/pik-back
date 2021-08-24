@@ -14,7 +14,7 @@ const conection = mysql.createPool({
 const resolvers = {
   Query: {
     publications: async (root, { slug, phone, status, category, subcategory, order }) => {
-      let query = `SELECT u.certificate as certificate, u.banner_bottom as banner_bottom, u.banner_top as banner_top, u.name as user_name, u.picture as user_picture, u.phone as user_phone, p.* FROM publications AS p
+      let query = `SELECT u.id as user, u.certificate as certificate, u.banner_bottom as banner_bottom, u.banner_top as banner_top, u.name as user_name, u.picture as user_picture, u.phone as user_phone, p.* FROM publications AS p
       INNER JOIN users AS u ON
       p.phone COLLATE utf8mb4_general_ci = u.phone`
       query = query + " where p.id IS NOT NULL"
@@ -57,7 +57,7 @@ const resolvers = {
       }
     },
     getNotifications: async (root, { user }) => { // Obteniendo monedas de usuario
-      const query = `SELECT * FROM notifications WHERE user = ${user} order by created desc`
+      const query = `SELECT * FROM notifications WHERE user = ${user} and closed = 0 order by created desc`
       let res = await conection.query(query);
       if (res[0].length > 0) {
         res = res[0]
@@ -131,16 +131,25 @@ const resolvers = {
       const user = await conection.query(`UPDATE users SET ? WHERE id = ${id}`, input)
       return "Ok"
     },
-    createTransaction: async (_, { user, publication }) => {
-      const result = await conection.query(`INSERT INTO transactions SET ?`, { user, publication, status: 0 })
+    createTransaction: async (_, data) => {
+      data;
+      debugger
+      const result = await conection.query(`INSERT INTO transactions SET ?`, { user, publication, status: 0, type: operation })
       return "Ok"
     },
     transactionConfirmed: async (_, { id }) => {
-      const result = await conection.query(`UPDATE transactions SET ? WHERE id = ${id}`, { status: 1 })
+      const result = await conection.query(`UPDATE transactions SET ? WHERE id = ${id}`, { status: 1 }) // Confirmando transaccion de compra
+      const userPublicationReq = await conection.query(`SELECT p.user as user, p.id as publication FROM publications p WHERE ID = (SELECT t.publication FROM transactions t WHERE t.id = ${id})`)
+      const { user, publication } = userPublicationReq[0][0]
+      const result2 = await conection.query(`INSERT INTO transactions SET ? `, { user, publication, status: 0, type: "Venta" }) // Creando transaccion de venta
       return "Ok"
     },
     createNotification: async (_, { user, detail, coins }) => {
-      const result = await conection.query(`INSERT INTO notifications SET ?`, { user, detail, coins })
+      const result = await conection.query(`INSERT INTO notifications SET ? `, { user, detail, coins })
+      return "Ok"
+    },
+    deleteNotification: async (_, { id }) => {
+      const result = await conection.query(`UPDATE notifications SET closed = 1 WHERE id = ${id}`)
       return "Ok"
     }
   }

@@ -3,31 +3,32 @@ const resolvers = require("./resolvers");
 
 const typeDefs = `
     type Query {
-        publications(slug: String, phone: String, status: Boolean, category: Int, subcategory: Int, Order: Boolean): [Publication],
-        validateLogin(phone: String, code: Int): String,
-        getCoins(user: Int): [Coin],
+        publications(slug: String, phone: String, status: Boolean, category: Int, subcategory: Int, Order: Boolean): [Publication]
+        validateLogin(phone: String, code: Int): String
+        getCoins(user: Int): [Coin]
         getNotifications(user: Int) : [Notification]
         getTransactions(user: Int) : [Transaction]
     }
 
     type Mutation {
-        createPublication(input: PublicationInput) : String,
-        setLoginCode(phone: String) : String,
-        changeStatePublication(id: Int, status: Boolean) : String,
+        createPublication(input: PublicationInput) : String
+        setLoginCode(phone: String) : String
+        changeStatePublication(id: Int, status: Boolean) : String
         changeProfileData(input: UserInput) : String
-        createTransaction(user: Int, publication: Int) : String
+        createTransaction(user: Int, publication: Int, operation: String) : String
         transactionConfirmed(id: Int) : String
         createNotification(user: Int, detail: String, coins: Int) : String
+        deleteNotification(id: Int) : String
     }    
 
     type Transaction {
-        id: Int
-        user: Int
-        type: String
-        detail: String
-        status: Int
         created: String
+        detail: String
+        id: Int
+        status: Int
+        type: String
         u_name: String
+        user: Int
     }
 
     type Coin {
@@ -48,41 +49,43 @@ const typeDefs = `
     
     type Publication {
         accept_changues: Boolean
+        banner_bottom: String
+        banner_top: String
+        category: Int
         certificate: Boolean
-        id: Int
-        is_new: Boolean
         description: String
+        id: Int
         image_1: String
         image_2: String
         image_3: String
         image_4: String
         image_5: String
         image_link: String
+        is_new: Boolean
         price: Int
         quantity: Int
         sale_price: Int
         slug: String
         status: Boolean
+        subcategory: Int
         tags: String
         title: String
+        user: Int
         user_name: String
-        user_picture: String
         user_phone: String
-        banner_bottom: String
-        banner_top: String
-        category: Int
-        subcategory: Int
+        user_picture: String
         views: Int
     }
 
     input UserInput {
-        email: String
-        id: Int
-        last_login: String
-        name: String
-        phone: String
-        picture: String
         token: String
+        picture: String
+        phone: String
+        name: String
+        last_login: String
+        id: Int
+        email: String
+        city: String
     }
 
     input PublicationInput {
