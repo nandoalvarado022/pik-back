@@ -15,7 +15,7 @@ const typeDefs = `
         setLoginCode(phone: String) : String
         changeStatePublication(id: Int, status: Boolean) : String
         changeProfileData(input: UserInput) : String
-        createTransaction(user: Int, publication: Int, operation: String) : String
+        createTransaction(user: Int, publication: Int, type: String) : String
         transactionConfirmed(id: Int) : String
         createNotification(user: Int, detail: String, coins: Int) : String
         deleteNotification(id: Int) : String

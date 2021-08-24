@@ -70,7 +70,7 @@ const resolvers = {
       FROM transactions  t
       INNER JOIN users u ON
       t.user = u.id
-      WHERE USER = ${user}
+      WHERE t.user = ${user}
       order by created desc`
       let res = await conection.query(query);
       if (res[0].length > 0) {
@@ -131,10 +131,8 @@ const resolvers = {
       const user = await conection.query(`UPDATE users SET ? WHERE id = ${id}`, input)
       return "Ok"
     },
-    createTransaction: async (_, data) => {
-      data;
-      debugger
-      const result = await conection.query(`INSERT INTO transactions SET ?`, { user, publication, status: 0, type: operation })
+    createTransaction: async (_, {user, publication, type}) => {
+      const result = await conection.query(`INSERT INTO transactions SET ?`, { user, publication, status: 0, type })
       return "Ok"
     },
     transactionConfirmed: async (_, { id }) => {
