@@ -70,7 +70,7 @@ const resolvers = {
       FROM transactions  t
       INNER JOIN users u ON
       t.user = u.id
-      WHERE t.user = ${user}
+      WHERE t.user = ${user} or t.user_to = ${user}
       order by created desc`
       let res = await conection.query(query);
       if (res[0].length > 0) {
@@ -129,28 +129,36 @@ const resolvers = {
       const { id } = input
       delete input.id
       const user = await conection.query(`UPDATE users SET ? WHERE id = ${id}`, input)
-      return "Ok"
+      return "200"
     },
-    createTransaction: async (_, {user, publication, type}) => {
-      const result = await conection.query(`INSERT INTO transactions SET ?`, { user, publication, status: 0, type })
-      return "Ok"
+    createTransaction: async (_, { publication, type, user, user_to }) => {
+      const result = await conection.query(`INSERT INTO transactions SET ?`, { publication, status: 0, type, user, user_to })
+      return "200"
     },
     transactionConfirmed: async (_, { id }) => {
       const result = await conection.query(`UPDATE transactions SET ? WHERE id = ${id}`, { status: 1 }) // Confirmando transaccion de compra
-      const userPublicationReq = await conection.query(`SELECT p.user as user, p.id as publication FROM publications p WHERE ID = (SELECT t.publication FROM transactions t WHERE t.id = ${id})`)
-      const { user, publication } = userPublicationReq[0][0]
-      const result2 = await conection.query(`INSERT INTO transactions SET ? `, { user, publication, status: 0, type: "Venta" }) // Creando transaccion de venta
-      return "Ok"
+      const transactionReq = await conection.query(`SELECT * FROM transactions WHERE id = ${id}`)
+      debugger
+      // Enviando notificaciones
+      createNotification({ user: transactionReq[0][0].user, detail: "Tienes 1 moneda por tu compra de ...", coins: 1 })
+      createNotification({ user: transactionReq[0][0].user_to, detail: "Tienes 1 moneda por tu venta de ...", coins: 1 })
+      return "200"
     },
-    createNotification: async (_, { user, detail, coins }) => {
-      const result = await conection.query(`INSERT INTO notifications SET ? `, { user, detail, coins })
-      return "Ok"
+    createNotification: async (_, data) => {
+      const res = await createNotification(data)
+      return res
+
     },
     deleteNotification: async (_, { id }) => {
       const result = await conection.query(`UPDATE notifications SET closed = 1 WHERE id = ${id}`)
-      return "Ok"
+      return "200"
     }
   }
+}
+
+const createNotification = async ({ user, detail, coins }) => {
+  const result = await conection.query(`INSERT INTO notifications SET ? `, { user, detail, coins })
+  return "200"
 }
 
 module.exports = resolvers

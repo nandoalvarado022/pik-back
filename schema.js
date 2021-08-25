@@ -15,7 +15,7 @@ const typeDefs = `
         setLoginCode(phone: String) : String
         changeStatePublication(id: Int, status: Boolean) : String
         changeProfileData(input: UserInput) : String
-        createTransaction(user: Int, publication: Int, type: String) : String
+        createTransaction(user: Int, user_to: Int, publication: Int, type: String) : String
         transactionConfirmed(id: Int) : String
         createNotification(user: Int, detail: String, coins: Int) : String
         deleteNotification(id: Int) : String
@@ -29,6 +29,7 @@ const typeDefs = `
         type: String
         u_name: String
         user: Int
+        user_to: Int
     }
 
     type Coin {
