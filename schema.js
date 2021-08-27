@@ -3,7 +3,7 @@ const resolvers = require("./resolvers");
 
 const typeDefs = `
     type Query {
-        publications(slug: String, phone: String, status: Boolean, category: Int, subcategory: Int, Order: Boolean): [Publication]
+        publications(slug: String, phone: String, status: Boolean, category: Int, subcategory: Int, order: Boolean): [Publication]
         validateLogin(phone: String, code: Int): String
         getCoins(user: Int): [Coin]
         getNotifications(user: Int) : [Notification]
@@ -54,6 +54,7 @@ const typeDefs = `
         banner_top: String
         category: Int
         certificate: Boolean
+        created: String
         description: String
         id: Int
         image_1: String

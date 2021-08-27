@@ -23,7 +23,7 @@ const resolvers = {
       if (status) query = query + ` and p.status = ${status}`
       if (category) query = query + ` and p.category = ${category}`
       if (subcategory) query = query + ` and p.subcategory = ${subcategory}`
-      if (order) query = query + ` order by p.created_at desc`
+      if (order) query = query + ` order by p.created desc`
       let res = []
       try {
         res = await conection.query(query)
@@ -31,7 +31,7 @@ const resolvers = {
         console.error(error);
       }
       res = res[0]
-      res = disrupt(res)
+      if (!order) res = disrupt(res)
       return res
     },
     validateLogin: async (root, { phone, code }) => {
